@@ -1,8 +1,8 @@
 //
 //  String+Extension.swift
-//  ForecastChallenge
+//  BudChallenge
 //
-//  Created by Fong Bao on 01/08/2018.
+//  Created by Fong Bao on 05/08/2018.
 //  Copyright © 2018 Duncan. All rights reserved.
 //
 

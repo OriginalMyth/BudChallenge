@@ -71,8 +71,8 @@ class TransactionsViewController: UIViewController, UITableViewDelegate, UITable
         }
         
         viewModel?.fetchTransactions(completion: { _ in
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
+            DispatchQueue.main.async { [weak self] in
+                self?.activityIndicator.stopAnimating()
             }
         })
     }
@@ -207,15 +207,15 @@ extension TransactionsViewController {
     
     func showPrimeAlert() {
         let alertController = UIAlertController(title: "Amend Transactions", message: nil, preferredStyle: .alert)
-        let editButton = UIAlertAction(title: "Edit", style: .default, handler: { (action) -> Void in
-            self.showEditAlert()
+        let editButton = UIAlertAction(title: "Edit", style: .default, handler: { [weak self] (action) -> Void in
+            self?.showEditAlert()
         })
-        let deleteButton = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
-            let transIds = self.cellsEditing.compactMap { //cellsSelected -> TransactionsData in
-                self.databaseManager?.getRealm()?.object(ofType: TransactionsData.self, forPrimaryKey: $0.transactionId)
+        let deleteButton = UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] (action) -> Void in
+            let transIds = self?.cellsEditing.compactMap {
+                self?.databaseManager?.getRealm()?.object(ofType: TransactionsData.self, forPrimaryKey: $0.transactionId)
             }
-            self.databaseManager?.delete(transactions: transIds)
-            self.clearSelected(cells: self.cellsEditing)
+            self?.databaseManager?.delete(transactions: transIds ?? [TransactionsData]())
+            self?.clearSelected(cells: self?.cellsEditing ?? [TransactionsTableViewCell]())
             
         })
 
@@ -233,15 +233,15 @@ extension TransactionsViewController {
         alertController.addTextField(configurationHandler: { (textField) in
             textField.placeholder = "Enter new category name"
         })
-        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
+        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { [weak self] alert -> Void in
             let editTextField = alertController.textFields![0] as UITextField
-            let transIds = self.cellsEditing.compactMap {
-                self.databaseManager?.getRealm()?.object(ofType: TransactionsData.self, forPrimaryKey: $0.transactionId)
+            let transIds = self?.cellsEditing.compactMap {
+                self?.databaseManager?.getRealm()?.object(ofType: TransactionsData.self, forPrimaryKey: $0.transactionId)
             }
             if let newText = editTextField.text {
-                self.databaseManager?.update(categoryName: newText, transactions: transIds)
+                self?.databaseManager?.update(categoryName: newText, transactions: transIds ?? [TransactionsData]())
             }
-            self.clearSelected(cells: self.cellsEditing)
+            self?.clearSelected(cells: self?.cellsEditing  ?? [TransactionsTableViewCell]())
         })
 
         alertController.addAction(saveAction)

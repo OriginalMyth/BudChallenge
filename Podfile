@@ -3,7 +3,6 @@
 
 def bud_pods
 #    inherit! :search_paths
-pod 'RxSwift',    '~> 4.1'
 pod 'RealmSwift', '~> 3.7.5'
 end
 
