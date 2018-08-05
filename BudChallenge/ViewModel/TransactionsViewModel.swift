@@ -22,24 +22,18 @@ class TransactionsViewModel: ViewModelProtocol {
     func fetchTransactions(completion: @escaping (ServiceResult) -> Void) {
         
         serviceManager.fetchTransactions(urlString: Constants.mockyUrlString, completion: { data, result in
-            
-            //print("*** data is... \(data)")
-            
-            
+
             guard let data = data, let transactionsData = data.transactionsData else {
                 return
             }
             
             let realm = self.databaseManager?.getRealm()
 
-            let transIds = transactionsData.compactMap { //cellsSelected -> TransactionsData in
+            let transIds = transactionsData.compactMap {
                 realm?.object(ofType: TransactionsData.self, forPrimaryKey: $0.id)
-                }
-            
-            print("*** transIds ... \(transIds)")
-            
-            let filteredTransactions = transactionsData.filter {
+            }
 
+            let filteredTransactions = transactionsData.filter {
                 var isMatch = true
                 for ids in transIds {
                     if $0.id == ids.id {
@@ -48,12 +42,9 @@ class TransactionsViewModel: ViewModelProtocol {
                 }
                 return isMatch
             }
-            
-            print("*** filteredTransactions ... \(filteredTransactions)")
 
             DispatchQueue.global(qos: .background).async {
-               // let fetchedTransactions = transactionsData.map { transaction -> TransactionsData in
-                    let fetchedTransactions = filteredTransactions.map { transaction -> TransactionsData in
+                let fetchedTransactions = filteredTransactions.map { transaction -> TransactionsData in
                     
                     let transData = TransactionsData(id: transaction.id, date: transaction.date, categoryId: transaction.categoryId)
                     
@@ -62,26 +53,13 @@ class TransactionsViewModel: ViewModelProtocol {
                     transData.currency = transaction.currency
                     transData.transactionDate = transaction.date.dateFromString()
                     transData.transactionDescription = transaction.description
-
+                    
                     return transData
                     
                 }
-                //print("**** fetchedTransactions... \(fetchedTransactions) ")
-                print("**** fetchedTransactions count... \(fetchedTransactions.count) ")
-                
-                //let realm = try! Realm()
-//                try! realm.write {
-//                    realm.add(fetchedTransactions, update: true)
-//                }
-                
-                
                 self.databaseManager?.persist(transactions: fetchedTransactions, update: true)
-                
             }
-
             completion(result)
-            
-            
         })
         
     }

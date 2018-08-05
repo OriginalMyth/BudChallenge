@@ -48,7 +48,6 @@ enum CurrenyCode: Int {
     dynamic var dateString: String?
     dynamic var transactionDate: Date?
     dynamic var transactionDescription: String?
-    //dynamic var categoryId: Int?
     dynamic var category: String?
     dynamic var currency: String?
     
@@ -100,7 +99,6 @@ enum CurrenyCode: Int {
             completion(IconImage(image: UIImage(), imagePath: ""))
         }
     }
-    
 }
 
 extension TransactionsData {
@@ -133,7 +131,6 @@ extension TransactionsData {
         self.init()
         self.value.value = value
         self.currencyIso = currencyIso
- 
     }
     
 }

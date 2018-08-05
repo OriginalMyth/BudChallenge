@@ -10,7 +10,6 @@ import Foundation
 
 protocol ServiceManagerProtocol {
     
-    
     func fetchTransactions(urlString: String, completion: @escaping (APIData?, ServiceResult) -> Void)
       
 }

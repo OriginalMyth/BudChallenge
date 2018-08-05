@@ -29,8 +29,6 @@ class ServiceManager: ServiceManagerProtocol {
             return
         }
         
-        print("*** url is... \(url)")
-        
         fetchLatestTransactions(url: url, completion: { data, response, error in
             guard error == nil, let data = data else {
                 print("fetchForecast error")
@@ -76,7 +74,6 @@ class ServiceManager: ServiceManagerProtocol {
                 return
             }
             if let image = UIImage(data: data) {
-                //completion(image)
                 DispatchQueue.main.async {
                 completion(IconImage(image: image, imagePath: icon))
                 }
@@ -99,9 +96,5 @@ class ServiceManager: ServiceManagerProtocol {
         }
         sessionTask.resume()
     }
-    
-    
-    
-    
     
 }

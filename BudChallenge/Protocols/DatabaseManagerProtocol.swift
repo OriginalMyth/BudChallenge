@@ -12,7 +12,6 @@ import RealmSwift
 protocol DatabaseManagerProtocol {
     
     func getRealm() -> Realm?
-    
     func persist(transactions: [TransactionsData], update: Bool)
     func delete(transactions: [TransactionsData])
     func update(categoryName: String, transactions: [TransactionsData]) 

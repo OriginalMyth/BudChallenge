@@ -27,7 +27,6 @@ class DatabaseManager: DatabaseManagerProtocol {
     }
     
     func persist(transactions: [TransactionsData], update: Bool) {
-        
         guard let realm = getRealm() else {
             return
         }
@@ -36,11 +35,11 @@ class DatabaseManager: DatabaseManagerProtocol {
                 realm.add(transactions, update: update)
             }
         } catch {
+            print("Persist Realm Error")
         }
     }
     
     func update(categoryName: String, transactions: [TransactionsData]) {
-        
         guard let realm = getRealm() else {
             return
         }
@@ -51,12 +50,11 @@ class DatabaseManager: DatabaseManagerProtocol {
                 }
             }
         } catch {
+            print("Update Realm Error")
         }
     }
-  
     
     func delete(transactions: [TransactionsData]) {
-        
         guard let realm = getRealm() else {
             return
         }
@@ -65,6 +63,7 @@ class DatabaseManager: DatabaseManagerProtocol {
         realm.delete(transactions)
             }
         } catch {
+            print("Delete Realm Error")
         }
     }
     

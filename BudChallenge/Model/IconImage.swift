@@ -9,8 +9,6 @@
 import UIKit
 
 struct IconImage {
-    
     let image: UIImage
     let imagePath: String
-    
 }
