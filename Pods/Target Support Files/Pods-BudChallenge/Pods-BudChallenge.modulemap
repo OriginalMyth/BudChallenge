@@ -1,0 +1,6 @@
+framework module Pods_BudChallenge {
+  umbrella header "Pods-BudChallenge-umbrella.h"
+
+  export *
+  module * { export * }
+}
